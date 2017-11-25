@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.LogDao">
+
+	<sql id="logColums">
+		a.id AS id,
+		a.ip AS ip,
+		a.href AS href,
+		a.source AS source,
+		a.type AS type,
+		a.exception AS exception,
+		a.description AS description,
+		a.remark AS remark,
+		a.create_by AS createBy,
+		a.create_time AS createTime
+	</sql>
+	
+	<sql id="logTableJoin">
+		sys_log a
+	</sql>
+	
+	<select id="selectList" parameterType="Log" resultType="Log">
+		SELECT 
+		<include refid="logColums"/>
+		FROM
+		<include refid="logTableJoin"/>
+		WHERE 1 = 1
+		<if test="id != null and id !=''">
+			and a.id = #{id}
+		</if>
+		<if test="type != null and type != ''">
+			and a.type = #{type}
+		</if>
+	</select>
+	
+	<select id="selectAllList" parameterType="Log" resultType="Log">
+		SELECT 
+		<include refid="logColums"/>
+		FROM
+		<include refid="logTableJoin"/>
+		WHERE 1 = 1
+	</select>
+	
+	<insert id="insert" parameterType="Log">
+		INSERT SYS_LOG (
+			id,
+			ip,
+			href,
+			source,
+			type,
+			exception,
+			description,
+			remark,
+			create_by,
+			create_time
+		) VALUES (
+			#{id},
+			#{ip},
+			#{href},
+			#{source},
+			#{type},
+			#{exception},
+			#{description},
+			#{remark},
+			#{createBy.id},
+			#{createTime}
+		)
+	</insert>
+</mapper>

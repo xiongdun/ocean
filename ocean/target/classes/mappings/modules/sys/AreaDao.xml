@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.AreaDao">
+
+	<sql id="areaColums">
+		a.id AS id,
+		a.parentId AS parentId,
+		a.parentIds AS parentIds,
+		a.shortname AS shortName,
+		a.name AS name,
+		a.fullname AS fullName,
+		a.english_name AS englishName,
+		a.city_code AS cityCode,
+		a.post_no AS postNo,
+		a.type AS type,
+		a.sort AS sort,
+		a.car_licencode AS carLicencode,
+		a.status AS status,
+		a.is_open AS isOpen,
+		a.remark AS remark,
+		a.create_by AS "createBy.id",
+		a.create_time AS createTime,
+		a.update_by AS "updateBy.id",
+		a.update_time AS createTime,
+		a.del_flag AS delFlag
+	</sql>
+	
+	<select id="selectById" resultType="Area" parameterType="String">
+		SELECT
+		<include refid="areaColums"/>
+		FROM sys_area a
+		WHERE a.id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="Area">
+		INSERT INTO sys_area (
+			id,
+			parentId,
+			parentIds,
+			shortname,
+			name,
+			fullname,
+			english_name,
+			city_code,
+			post_no,
+			type,
+			sort,
+			car_licencode,
+			status,
+			is_open,
+			remark,
+			create_by,
+			create_time,
+			update_by,
+			update_time,
+			del_flag
+		) VALUES (
+			#{id},
+			#{parentId},
+			#{parentIds},
+			#{shortName},
+			#{name},
+			#{fullName},
+			#{englishName}
+			#{cityCode},
+			#{postNo},
+			#{type},
+			#{sort},
+			#{carLicencode},
+			#{status},
+			#{isOpen},
+			#{remark},
+			#{createBy.id},
+			#{createTime},
+			#{updateBy.id},
+			#{updateTime},
+			#{delFlag}
+		)
+	</insert>
+</mapper>

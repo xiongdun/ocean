@@ -1,0 +1,27 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd">
+
+	<diskStore path="./temp/ocean/ehcache" />
+	<defaultCache
+		maxEntriesLocalHeap="10000"
+		eternal="false"
+		timeToIdleSeconds="120"
+		timeToLiveSeconds="120"
+		maxEntriesLocalDisk="10000000"
+		diskExpiryThreadIntervalSeconds="120"
+		memoryStoreEvictionPolicy="LRU"/>
+	
+    <cache name="sysCache" 
+    	maxElementsInMemory="150" 
+    	eternal="false" 
+    	timeToLiveSeconds="36000" 
+    	timeToIdleSeconds="3600" 
+    	overflowToDisk="true"/>
+    	
+    <cache name="userCache" 
+    	maxElementsInMemory="150" 
+    	eternal="false"
+    	timeToLiveSeconds="36000" 
+    	timeToIdleSeconds="3600" 
+    	overflowToDisk="true"/>
+</ehcache>

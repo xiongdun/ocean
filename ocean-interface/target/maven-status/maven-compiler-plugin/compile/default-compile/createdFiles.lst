@@ -1,0 +1,5 @@
+com\brucex\interfaces\service\sys\SysUserOutSerivice.class
+com\brucex\interfaces\service\news\NewsOutService.class
+com\brucex\interfaces\entity\modules\sys\UserDTO.class
+com\brucex\interfaces\entity\modules\news\NewsDTO.class
+com\brucex\interfaces\entity\Common.class

@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.UserDao">
+	
+	<sql id="userColums">
+		a.id AS id,
+		a.name AS name,
+		a.login_name AS loginName,
+		a.english_name AS englishName,
+		a.password AS password,
+		a.password_salt AS passwordSalt,
+		a.sex AS sex,
+		a.age AS age,
+		a.phone AS phone,
+		a.idcard AS idCard,
+		a.email AS email,
+		a.salary AS salary,
+		a.nation AS nation,
+		a.work_address AS workAddress,
+		a.house_address AS houseAddress,
+		a.photo AS photo,
+		a.remark AS remark,
+		a.user_type AS userType,
+		a.login_date AS loginDate,
+		a.login_times AS loginTimes,
+		a.city_id AS "city.id",
+		a.office_id AS "office.id",
+		a.create_by AS "createBy.id",
+		a.create_time AS createTime,
+		a.update_by AS "updateBy.id",
+		a.update_time AS updateTime,
+		a.pinyin AS pinyin,
+		a.status AS status,
+		a.del_flag AS delFlag
+	</sql>
+	
+	<select id="selectById" parameterType="String" resultType="User">
+		SELECT 
+		<include refid="userColums"/>
+		FROM sys_user a
+		WHERE a.id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="User">
+		INSERT INTO sys_user(
+			id,
+			name,
+			login_name,
+			english_name,
+			password,
+			password_salt,
+			sex,
+			age,
+			phone,
+			idcard,
+			email,
+			salary,
+			nation,
+			work_address,
+			house_address,
+			photo,
+			remark,
+			user_type,
+			login_date,
+			login_times,
+			city_id,
+			office_id,
+			create_by,
+			create_time,
+			update_by,
+			update_time,
+			pinyin,
+			status,
+			del_flag
+		) VALUES (
+			#{id},
+			#{name},
+			#{loginName},
+			#{englishName},
+			#{password},
+			#{passwordSalt},
+			#{sex},
+			#{age},
+			#{phone},
+			#{idCard},
+			#{email},
+			#{salary},
+			#{nation},
+			#{workAddress},
+			#{houseAddress},
+			#{photo},
+			#{remark},
+			#{userType},
+			#{loginDate},
+			#{loginTimes},
+			#{city.id},
+			#{office.id},
+			#{createBy.id},
+			#{createTime},
+			#{updateBy.id},
+			#{updateTime},
+			#{pinyin},
+			#{status},
+			#{delFlag}
+		)
+	</insert>
+	
+	<select id="selectList" resultType="User" parameterType="User">
+		SELECT 
+		<include refid="userColums"/>
+		FROM sys_user a
+		WHERE a.del_flag = '0'
+		<if test="id != null and id != ''">
+			and id = #{id}
+		</if>
+	</select>
+	
+	<!-- 修改 -->
+	<update id="update" parameterType="User">
+		UPDATE sys_user
+		<trim prefix="SET" suffixOverrides="," suffix=" where id = #{id} ">
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="loginName != null and loginName != ''">
+				login_name = #{loginName},
+			</if>
+			<if test="englishName != null and englishName != ''">
+				english_name = #{englishName},
+			</if>
+			<if test="password != null and password != ''">
+				password = #{password},
+			</if>
+			<if test="passwordSalt != null and passwordSalt != ''">
+				password_salt = #{passwordSalt},
+			</if>
+			<if test="sex != null and sex != ''">
+				sex = #{sex},
+			</if>
+			<if test="age != null and age != ''">
+				age = #{age}
+			</if>
+			<if test="phone != null and phone != ''">
+				phone = #{phone}
+			</if>
+			<if test="idCard != null and idCard != ''">
+				idcard = #{idCard},
+			</if>
+			<if test="email != null and email !=''">
+				email = #{email},
+			</if>
+			<if test="salary != null and salary != ''">
+				salary = #{salary},
+			</if>
+			<if test="nation != null and nation !=''">
+				nation = #{nation},
+			</if>
+			<if test="workAddress != null and workAddress != ''">
+				work_address = #{workAddress},
+			</if>
+			<if test="houseAddress != null and houseAddress != ''">
+				house_address = #{houseAddress},
+			</if>
+			<if test="photo != null and photo != ''">
+				photo = #{photo},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark},
+			</if>
+			<if test="userType != null and userType !=''">
+				user_type = #{userType},
+			</if>
+			<if test="loginDate != null and loginDate !=''">
+				login_date = #{loginDate},
+			</if>
+			<if test="loginTimes != null and loginTimes !=''">
+				login_times = login_times + 1,
+			</if>
+			<if test="city.id != null and city.id != ''">
+				city_id = #{city.id},
+			</if>
+			<if test="office.id != null and office.id != ''">
+				office_id = #{office.id},
+			</if>
+			<if test="createBy.id != null and createBy.id !=''">
+				create_by = #{createBy.id},
+			</if>
+			<if test="createTime != null and createTime != ''">
+				create_time = #{createTime},
+			</if>
+			<if test="updateBy.id != null and updateBy.id != ''">
+				update_by = #{updateBy.id},
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				update_time = #{updateTime},
+			</if>
+			<if test="pinyin != null and pinyin != ''">
+				pinyin = #{pingyin},
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status},
+			</if>
+		</trim>
+	</update>
+	
+	<!-- 逻辑删除 -->
+	<update id="deleteById" parameterType="String">
+		UPDATE sys_user
+		SET del_flag = '1'
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectByLoginName" parameterType="User" resultType="User">
+		SELECT 
+		<include refid="userColums"/>
+		FROM sys_user a
+		WHERE a.del_flag = #{NORMAL_DEL_FLAG}
+		<if test="loginName != null and loginName !=''">
+			AND a.login_name = #{loginName}
+		</if>
+		<if test="phone != null and phone != ''">
+			AND a.phone = #{phone}
+		</if>
+		<if test="email != null and email != ''">
+			AND a.email = #{email}
+		</if>
+	</select>
+	
+	<select id="selectUserCount" parameterType="User" resultType="Integer">
+		SELECT 
+		count(*)
+		FROM sys_user a
+		where 
+		<if test="loginName != null and loginName !=''">
+			a.login_name = #{loginName}
+		</if>
+		<if test="phone != null and phone != ''">
+			a.phone = #{phone}
+		</if>
+		<if test="email != null and email != ''">
+			a.email = #{email}
+		</if>
+		<if test="idCard != null and idCard != ''">
+			a.idcard = #{idCard}
+		</if>
+		AND a.del_flag = 0
+	</select>
+	
+	<update id="delete" parameterType="User">
+		UPDATE sys_user
+		SET del_flag = 1
+		<if test="loginName != null and loginName != ''">
+			WHERE login_name = #{loginName}
+		</if>
+	</update>
+	
+	<!-- 物理删除 -->
+	<delete id="realDeleteById" parameterType="String">
+		DELETE FROM
+		sys_user
+		WHERE id = #{id}
+	</delete>
+	
+	<!-- 物理删除 -->
+	<delete id="realDelete" parameterType="User">
+		DELETE FROM
+		sys_user
+		<if test="loginName != null and loginName != ''">
+			WHERE login_name = #{loginName}
+		</if>
+	</delete>
+	
+	<!-- 插入用户角色 -->
+	<insert id="insertUserRoles" parameterType="User">
+		INSERT INTO sys_user_role (user_id, role_id)
+		<foreach collection="roleList" item="role" separator=" union all ">
+			SELECT #{id}, #{role.id} 
+			<if test="dbName != 'mssql'">
+				FROM dual
+			</if>
+		</foreach>
+	</insert>
+	
+</mapper>

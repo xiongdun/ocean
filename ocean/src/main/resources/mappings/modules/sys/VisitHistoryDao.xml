@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.VisitHistoryDao">
+
+	<sql id="visithistoryColums">
+		a.id AS id,
+		a.ip AS ip,
+		a.longitude AS longitude,
+		a.latitude AS latitude,
+		a.source AS source,
+		a.os AS os,
+		a.browser AS browser,
+		a.description AS description,
+		a.remark AS remark,
+		a.create_by AS "createBy.id",
+		a.create_time AS createTime,
+		a.status AS status,
+		a.del_flag AS delFlag
+	</sql>
+	
+	<sql id="visithistoryJoins">
+		sys_visit_history a
+	</sql>
+	
+	<select id="selectById" resultType="VisitHistory" parameterType="String">
+		SELECT
+		<include refid="visithistoryColums"/>
+		FROM sys_visit_history a
+		WHERE a.id = #{id}
+		ORDER BY a.create_time desc
+	</select>
+	
+	<insert id="insert" parameterType="VisitHistory">
+		INSERT INTO 
+		sys_visit_history(
+			id,
+			ip,
+			longitude,
+			latitude,
+			source,
+			os,
+			browser,
+			description,
+			remark,
+			status,
+			create_by,
+			create_time,
+			del_flag
+		) VALUES (
+			#{id},
+			#{ip},
+			#{longitude},
+			#{latitude},
+			#{source},
+			#{os},
+			#{browser},
+			#{description},
+			#{remark},
+			#{status},
+			#{createBy.id},
+			#{createTime},
+			#{delFlag}
+		)
+		
+	</insert>
+	
+	<select id="selectAllList" resultType="VisitHistory" parameterType="VisitHistory">
+		SELECT 
+		<include refid="visithistoryColums"/>
+		FROM sys_visit_history
+	</select>
+	
+	<select id="selectList" resultType="VisitHistory" parameterType="VisitHistory">
+		SELECT 
+		<include refid="visithistoryColums"/>,
+		su.name userName
+		FROM <include refid="visithistoryJoins"/>, sys_user su
+		where a.create_by = su.id
+		<if test="id != null and id != ''">
+			and a.id = #{id}
+		</if>
+		<if test="createTime != null and createTime != ''">
+			and a.create_time = #{createTime}
+		</if>
+	</select>
+	
+</mapper>

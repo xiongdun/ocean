@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.MenuDao">
+	
+	<sql id="menuColums">
+		a.id AS id,
+		a.parentId AS "parent.id",
+		a.parentIds AS parentIds,
+		a.name AS name,
+		a.english_name AS englishName,
+		a.sort AS sort,
+		a.href AS href,
+		a.target AS target,
+		a.permission AS permission,
+		a.permission_name AS permissionName,
+		a.icon AS icon,
+		a.style_class AS styleClass,
+		a.description AS description,
+		a.remark AS remark,
+		a.status AS status,
+		a.create_by AS "createBy.id",
+		a.create_time AS createTime,
+		a.update_by AS "updateBy.id",
+		a.update_time AS updateTime,
+		a.del_flag AS delFlag
+	</sql>
+	
+	<insert id="insert" parameterType="Menu">
+		INSERT INTO 
+		sys_menu (
+			id,
+			parentId,
+			parentIds,
+			name,
+			english_name,
+			sort,
+			href,
+			target,
+			permission,
+			permission_name,
+			icon,
+			style_class,
+			description,
+			remark,
+			status,
+			create_by,
+			create_time,
+			update_by,
+			update_time,
+			del_flag
+		) VALUES (
+			#{id},
+			#{parent.id},
+			#{parentIds},
+			#{name},
+			#{englishName},
+			#{sort},
+			#{href},
+			#{target},
+			#{permission},
+			#{permissionName},
+			#{icon},
+			#{styleClass},
+			#{description},
+			#{remark},
+			#{status},
+			#{createBy.id},
+			#{createTime},
+			#{updateBy.id},
+			#{updateTime},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update" parameterType="Menu">
+		UPDATE sys_menu 
+		<trim prefix="SET" suffixOverrides="," suffix=" where id = #{id} ">
+			<if test="parent.id != null and parent.id !=''">
+				parentId = #{parent.id},
+			</if>
+			<if test="parentIds != null and parentIds != ''">
+				parentIds = #{parentIds}
+			</if>
+			<if test="name != null and name != ''">
+				name = #{name}
+			</if>
+			<if test="englishName != null and englishName != ''">
+				english_name = #{englishName}
+			</if>
+			<if test="sort != 0 and sort != null">
+				sort = #{sort}
+			</if>
+			<if test="href != null and href != ''">
+				href = #{href}
+			</if>
+			<if test="target != null and target != ''">
+				target = #{target}
+			</if>
+			<if test="permission != null and permission != ''">
+				permission = #{permission}
+			</if>
+			<if test="permissionName != null and permissionName != ''">
+				permission_name = #{permissionName}
+			</if>
+			<if test="icon != null and icon != ''">
+				icon = #{icon}
+			</if>
+			<if test="styleClass != null and styleClass != ''">
+				style_class = #{styleClass}
+			</if>
+			<if test="description != null and description != ''">
+				description = #{description}
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark}
+			</if>
+			<if test="status != null and status != ''">
+				status = #{status}
+			</if>
+			<if test="createBy.id != null and createBy.id != ''">
+				create_by = #{createBy.id}
+			</if>
+			<if test="createTime != null and createTime != ''">
+				create_time = #{createTime}
+			</if>
+			<if test="updateBy.id != null and updateBy.id != ''">
+				update_by = #{updateBy.id}
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+				update_time = #{updateTime}
+			</if>
+			<if test="delFlag != null and delFlag != ''">
+				del_flag = #{delFlag}
+			</if>
+		</trim>
+	</update>
+</mapper>

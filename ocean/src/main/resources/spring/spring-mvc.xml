@@ -1,0 +1,105 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+   	http://www.springframework.org/schema/beans/spring-beans-4.2.xsd    
+    http://www.springframework.org/schema/context    
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd    
+    http://www.springframework.org/schema/mvc    
+    http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+    http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+	<!-- 注解驱动 -->
+	<mvc:annotation-driven/>
+	
+	<!-- 扫描包 -->
+	<context:component-scan base-package="com.brucex.*"/>
+	
+	<!-- 加载配置属性文件 -->
+	<context:property-placeholder ignore-unresolvable="true" location="classpath*:common.properties" />
+	
+	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 从请求和响应读取/编写字符串 -->
+	<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!--1、首先检查路径扩展名（如my.pdf）；2、其次检查Parameter（如my?format=pdf）；3、检查Accept Header-->
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
+        <property name="favorPathExtension" value="true"/>
+        <!-- 用于开启 /userinfo/123?format=json 的支持 -->
+        <property name="favorParameter" value="true"/>
+        <property name="parameterName" value="format"/>
+        <!-- 是否忽略Accept Header -->
+        <property name="ignoreAcceptHeader" value="false"/>
+        <!--扩展名到MIME的映射；favorPathExtension, favorParameter是true时起作用  -->
+        <property name="mediaTypes">
+            <value>
+                json=application/json
+                xml=application/xml
+                html=text/html
+            </value>
+        </property>
+        <!-- 默认的content type -->
+        <property name="defaultContentType" value="text/html"/>
+    </bean>
+	
+	<!-- 启动SpringMVC的注解功能，完成请求和注解POJO的映射 JSON转换器-->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJacksonHttpMessageConverter"/>
+				<ref bean="stringHttpMessageConverter"/>
+			</list>
+		</property>
+	</bean>
+	<!-- 如果当前请求为"/"时，则转发到"index" -->
+	<mvc:view-controller path="/" view-name="forward:sys/user/tologin"/>
+	
+	<!-- 配置视图解析器,定义跳转的文件的前后缀 ，视图模式配置-->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 视图前缀 -->
+		<property name="prefix" value="${web.view.prefix}"></property>
+		<!-- 视图后缀 -->
+		<property name="suffix" value="${web.view.suffix}"></property>
+	</bean>
+	
+	<!-- 激活Bean中定义的注解 -->
+	<context:annotation-config />
+    <mvc:annotation-driven />
+	
+	<!-- 存储区域设置信息 -->
+    <bean id="localeResolver"
+        class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    <!-- 国际化资源文件 -->
+    <bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:i18n/locale" />
+    </bean>
+ 
+    <mvc:interceptors>
+        <bean id="localeChangeInterceptor"
+            class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="lang" />
+        </bean>
+    </mvc:interceptors>
+	
+	<!-- 开启这个配置 spring才能识别@Scheduled注解 -->
+	<task:annotation-driven/>
+</beans>

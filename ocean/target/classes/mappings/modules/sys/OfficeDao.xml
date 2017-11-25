@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.OfficeDao">
+	
+	<sql id="officeColums">
+		a.id AS id,
+		a.parentId AS parentId,
+		a.parentIds AS parentIds,
+		a.name AS name,
+		a.english_name AS englishName,
+		a.sort AS sort,
+		a.city_id AS "city.id",
+		a.type AS type,
+		a.address AS address,
+		a.status AS status,
+		a.level AS level,
+		a.phone AS phone,
+		a.email AS email,
+		a.manager AS "manager.id",
+		a.fax AS fax,
+		a.create_by AS "createBy.id",
+		a.create_time AS createTime,
+		a.update_by AS "updateBy.id",
+		a.updateTime AS updateTime,
+		a.del_flag AS delFlag
+	</sql>
+</mapper>

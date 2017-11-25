@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+ "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.brucex.modules.sys.dao.SettingsDao">
+
+	<sql id="settingsColums">
+		
+	</sql>
+	
+	<select id="selectById" resultType="Settings" parameterType="String">
+	
+	</select>
+	
+	<insert id="insert" parameterType="Settings">
+		
+	</insert>
+</mapper>
